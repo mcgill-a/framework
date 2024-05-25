@@ -1,8 +1,15 @@
-const CustomElement: () => HTMLElement = () => {
-  let value = 0;
+const Counter: (value?: number) => HTMLElement = (value = 0) => {
+  const refresh = () => {
+    console.log("Change detection");
+    button.textContent = getValue();
+  };
 
   const getValue = () => value.toString();
-  const setValue = (x: number) => (value = x);
+
+  const setValue = (x: number) => {
+    value = x;
+    refresh();
+  };
 
   const button = document.createElement("button");
   button.textContent = getValue();
@@ -14,9 +21,8 @@ const CustomElement: () => HTMLElement = () => {
 
   button.onclick = () => {
     setValue(value + 1);
-    button.textContent = getValue();
-    console.log(value);
   };
+
   return button;
 };
 
@@ -34,10 +40,11 @@ const App = (root: HTMLElement | null) => {
   style.gap = "8px";
 
   // Replacer
-  const custom = root?.getElementsByTagName("CustomElement");
+  const custom = root?.getElementsByTagName("Counter");
   console.log(custom);
   for (const element of custom ?? []) {
-    element.append(CustomElement());
+    const value = element.getAttribute("value") ?? void 0;
+    element.append(Counter(value ? Number(value) : void 0));
   }
 };
 

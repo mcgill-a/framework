@@ -1,8 +1,14 @@
 "use strict";
-const CustomElement = () => {
-    let value = 0;
+const Counter = (value = 0) => {
+    const refresh = () => {
+        console.log("Change detection");
+        button.textContent = getValue();
+    };
     const getValue = () => value.toString();
-    const setValue = (x) => (value = x);
+    const setValue = (x) => {
+        value = x;
+        refresh();
+    };
     const button = document.createElement("button");
     button.textContent = getValue();
     button.style.display = "flex";
@@ -12,12 +18,11 @@ const CustomElement = () => {
     button.style.padding = "4px";
     button.onclick = () => {
         setValue(value + 1);
-        button.textContent = getValue();
-        console.log(value);
     };
     return button;
 };
 const App = (root) => {
+    var _a;
     if (!root)
         return;
     // Styling
@@ -30,10 +35,11 @@ const App = (root) => {
     style.fontFamily = "Arial";
     style.gap = "8px";
     // Replacer
-    const custom = root === null || root === void 0 ? void 0 : root.getElementsByTagName("CustomElement");
+    const custom = root === null || root === void 0 ? void 0 : root.getElementsByTagName("Counter");
     console.log(custom);
     for (const element of custom !== null && custom !== void 0 ? custom : []) {
-        element.append(CustomElement());
+        const value = (_a = element.getAttribute("value")) !== null && _a !== void 0 ? _a : void 0;
+        element.append(Counter(value ? Number(value) : void 0));
     }
 };
 const root = document.getElementById("root");
