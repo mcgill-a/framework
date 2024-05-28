@@ -1,13 +1,20 @@
-<html>
+<html lang="en">
   <head>
     <title>Framework</title>
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
     <div id="root">
-      <span>Hello World</span>
-      <Counter value="50" class="red"></Counter>
-      <Counter value="100" class="blue"></Counter>
+      <span>Framework</span>
+      <div class="counters">
+        <Counter value="50" class="red"></Counter>
+        <Counter value="100" class="blue"></Counter>
+        <Counter value="260"></Counter>
+      </div>
+      <div class="card">
+        <span>A box</span>
+        <Counter class="red" value="300"></Counter>
+      </div>
     </div>
     <script src="/dist/index.js"></script>
   </body>

@@ -1,7 +1,7 @@
 "use strict";
 const Counter = (value = 0) => {
     const refresh = () => {
-        console.log("Change detection");
+        console.log("Refresh");
         button.textContent = getValue();
     };
     const getValue = () => value.toString();
@@ -9,35 +9,24 @@ const Counter = (value = 0) => {
         value = x;
         refresh();
     };
+    const onClick = () => setValue(value + 1);
+    const button = Button({ onClick, textContent: getValue() });
+    return button;
+};
+const Button = (props) => {
+    const { textContent, onClick } = props;
     const button = document.createElement("button");
-    button.textContent = getValue();
-    button.style.display = "flex";
-    button.style.minWidth = "64px";
-    button.style.justifyContent = "center";
-    button.style.boxSizing = "border-box";
-    button.style.padding = "4px";
-    button.onclick = () => {
-        setValue(value + 1);
-    };
+    button.type = 'button';
+    button.onclick = onClick !== null && onClick !== void 0 ? onClick : null;
+    button.textContent = textContent !== null && textContent !== void 0 ? textContent : 'Button';
     return button;
 };
 const App = (root) => {
     var _a;
     if (!root)
         return;
-    // Styling
-    const { style } = root;
-    style.display = "flex";
-    style.flexDirection = "column";
-    style.width = "100%";
-    style.height = "100%";
-    style.backgroundColor = "white";
-    style.fontFamily = "Arial";
-    style.gap = "8px";
-    // Replacer
-    const custom = root === null || root === void 0 ? void 0 : root.getElementsByTagName("Counter");
-    console.log(custom);
-    for (const element of custom !== null && custom !== void 0 ? custom : []) {
+    const counters = root === null || root === void 0 ? void 0 : root.getElementsByTagName("Counter");
+    for (const element of counters !== null && counters !== void 0 ? counters : []) {
         const value = (_a = element.getAttribute("value")) !== null && _a !== void 0 ? _a : void 0;
         element.append(Counter(value ? Number(value) : void 0));
     }
